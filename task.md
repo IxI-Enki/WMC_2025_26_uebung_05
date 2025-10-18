@@ -72,6 +72,21 @@ agent:
     > - **Expected Result:** Sensor-Auto-Creation funktioniert, max. 100 Messwerte, korrekte Sortierung, alle HTTP-Codes korrekt
     > - **Notes:** Szenarien: 1) Neue Daten, 2) Sensor-Auto-Creation, 3) Bestehender Sensor, 4) GetLast100. Tools: Api.http, Swagger UI.
 
+  - [x] **Task 09** - DomainValidationResult Klasse erstellen:
+    > - **Description:** DomainValidationResult in Domain/Common erstellen gemäß Template-Pattern aus Scriptum Sektion 43
+    > - **Expected Result:** DomainValidationResult mit Factory-Methoden Success() und Failure() verfügbar
+    > - **Notes:** Lightweight validation result für Domain-Layer, verwendet für SensorSpecifications.CheckLocation(), CheckName(), CheckNameNotEqualLocation()
+
+  - [x] **Task 10** - SensorSpecifications erweitern mit ValidateEntityInternal:
+    > - **Description:** SensorSpecifications um CheckLocation(), CheckName(), CheckNameNotEqualLocation() und ValidateEntityInternal() erweitern gemäß Scriptum Sektion 44, 64, 65
+    > - **Expected Result:** Vollständige Domain-Validierung für Sensor-Entities verfügbar
+    > - **Notes:** ValidateEntityInternal() ruft alle Check-Methoden auf, wirft DomainValidationException bei erstem Fehler, NameMinLength = 2 Konstante
+
+  - [x] **Task 11** - Sensor CreateAsync/UpdateAsync um ValidateEntityInternal erweitern:
+    > - **Description:** Sensor.CreateAsync() und UpdateAsync() müssen ValidateEntityInternal() aufrufen ZUSÄTZLICH zu ValidateEntityExternal() gemäß Scriptum Sektion 65, Template-Projekt
+    > - **Expected Result:** Beide Methoden führen interne UND externe Validierung durch
+    > - **Notes:** CreateAsync: ValidateEntityInternal() DANN ValidateEntityExternal(), UpdateAsync: gleiche Logik. Domain-Layer validiert Format UND Uniqueness.
+
 ---
   
 ❗ Assignment has to be implemented in the [exercise project](clean_architecture_05_validation_with_middleware)

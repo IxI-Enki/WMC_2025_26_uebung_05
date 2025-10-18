@@ -354,6 +354,155 @@ GET /api/measurements/last100
 
 ---
 
+### ✅ Task 09 - DomainValidationResult Klasse erstellen
+**Status:** Completed
+**Beschreibung:** DomainValidationResult in Domain/Common erstellen gemäß Template-Pattern aus Scriptum Sektion 43
+
+**Expected Result:**
+- DomainValidationResult record mit Factory-Methoden Success() und Failure()
+- Property-basierte Validierung (IsValid, Property, ErrorMessage)
+- Lightweight für Domain-Layer Validierungen
+
+**Implementation:**
+```csharp
+namespace Domain.Common;
+
+/// <summary>
+/// Lightweight domain validation result with factory helpers.
+/// </summary>
+public sealed record DomainValidationResult(bool IsValid, string Property, string? ErrorMessage)
+{
+    public static DomainValidationResult Success(string property) => new(true, property, null);
+    public static DomainValidationResult Failure(string property, string message) => new(false, property, message);
+}
+```
+
+**Notes:**
+- Template Pattern aus Scriptum Sektion 43
+- Wird von SensorSpecifications.CheckLocation(), CheckName(), CheckNameNotEqualLocation() verwendet
+- ✅ Bereits im Projekt vorhanden
+
+---
+
+### ✅ Task 10 - SensorSpecifications erweitern mit ValidateEntityInternal
+**Status:** Completed
+**Beschreibung:** SensorSpecifications um CheckLocation(), CheckName(), CheckNameNotEqualLocation() und ValidateEntityInternal() erweitern gemäß Scriptum Sektion 44, 64, 65
+
+**Expected Result:**
+- CheckLocation() validiert: Location nicht leer
+- CheckName() validiert: Name nicht leer + Mindestlänge 2
+- CheckNameNotEqualLocation() validiert: Name ≠ Location
+- ValidateEntityInternal() führt alle Checks aus, wirft DomainValidationException bei erstem Fehler
+
+**Implementation:**
+```csharp
+public static class SensorSpecifications
+{
+    public const int NameMinLength = 2;
+
+    public static DomainValidationResult CheckLocation(string location) =>
+        string.IsNullOrWhiteSpace(location)
+            ? DomainValidationResult.Failure("Location", "Location darf nicht leer sein.")
+            : DomainValidationResult.Success("Location");
+
+    public static DomainValidationResult CheckName(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            return DomainValidationResult.Failure("Name", "Name darf nicht leer sein.");
+        if (name.Trim().Length < NameMinLength)
+            return DomainValidationResult.Failure("Name", $"Name muss mindestens {NameMinLength} Zeichen haben.");
+        return DomainValidationResult.Success("Name");
+    }
+
+    public static DomainValidationResult CheckNameNotEqualLocation(string name, string location) =>
+        string.Equals(name.Trim(), location.Trim(), StringComparison.OrdinalIgnoreCase)
+            ? DomainValidationResult.Failure("Name", "Name darf nicht der Location entsprechen.")
+            : DomainValidationResult.Success("Name");
+
+    public static void ValidateEntityInternal(string location, string name)
+    {
+        var validationResults = new List<DomainValidationResult>
+        {
+            CheckLocation(location),
+            CheckName(name),
+            CheckNameNotEqualLocation(name, location)
+        };
+        foreach (var result in validationResults)
+        {
+            if (!result.IsValid)
+                throw new DomainValidationException(result.Property, result.ErrorMessage!);
+        }
+    }
+
+    public static async Task ValidateEntityExternal(int id, string location, string name,
+        ISensorUniquenessChecker uniquenessChecker, CancellationToken ct = default)
+    {
+        if (!await uniquenessChecker.IsUniqueAsync(id, location, name, ct))
+            throw new DomainValidationException("Sensor", "Ein Sensor mit der gleichen Location und dem gleichen Namen existiert bereits.");
+    }
+}
+```
+
+**Notes:**
+- Pattern aus Scriptum Sektion 44 (Domain-Rules zentral verwalten), 64 (Specifications), 65 (Internal und External)
+- ValidateEntityInternal = Domain-interne Regeln (ohne DB-Zugriff)
+- ValidateEntityExternal = Domain-übergreifende Regeln (mit DB-Zugriff für Uniqueness)
+- ✅ Implementiert
+
+---
+
+### ✅ Task 11 - Sensor CreateAsync/UpdateAsync um ValidateEntityInternal erweitern
+**Status:** Completed
+**Beschreibung:** Sensor.CreateAsync() und UpdateAsync() müssen ValidateEntityInternal() aufrufen ZUSÄTZLICH zu ValidateEntityExternal()
+
+**Expected Result:**
+- CreateAsync() führt ValidateEntityInternal() DANN ValidateEntityExternal() aus
+- UpdateAsync() führt ValidateEntityInternal() DANN ValidateEntityExternal() aus
+- Domain-Layer garantiert korrekte Daten sowohl für Format als auch Uniqueness
+
+**Implementation:**
+
+**Sensor.CreateAsync():**
+```csharp
+public static async Task<Sensor> CreateAsync(string location, string name,
+    ISensorUniquenessChecker uniquenessChecker, CancellationToken ct = default)
+{
+    var trimmedLocation = (location ?? string.Empty).Trim();
+    var trimmedName = (name ?? string.Empty).Trim();
+
+    // Domain-Validierung: Format + Uniqueness
+    SensorSpecifications.ValidateEntityInternal(trimmedLocation, trimmedName);
+    await SensorSpecifications.ValidateEntityExternal(0, trimmedLocation, trimmedName, uniquenessChecker, ct);
+
+    return new Sensor(trimmedLocation, trimmedName);
+}
+```
+
+**Sensor.UpdateAsync():**
+```csharp
+public async Task UpdateAsync(string location, string name,
+    ISensorUniquenessChecker uniquenessChecker, CancellationToken ct = default)
+{
+    var trimmedLocation = (location ?? string.Empty).Trim();
+    var trimmedName = (name ?? string.Empty).Trim();
+
+    // Domain-Validierung: Format + Uniqueness
+    SensorSpecifications.ValidateEntityInternal(trimmedLocation, trimmedName);
+    await SensorSpecifications.ValidateEntityExternal(Id, trimmedLocation, trimmedName, uniquenessChecker, ct);
+
+    Location = trimmedLocation;
+    Name = trimmedName;
+}
+```
+
+**Notes:**
+- Pattern aus Template-Projekt und Scriptum Sektion 65
+- Beide Validierungen (intern + extern) sind DOMAIN-Layer Verantwortung
+- Application-Layer macht ZUSÄTZLICH FluentValidation für Use-Case-spezifische Regeln
+- ✅ Implementiert
+
+---
+
 ## Wichtige Constraints
 
 🛑 **KRITISCH - Patterns einhalten:**

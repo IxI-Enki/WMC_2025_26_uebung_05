@@ -50,8 +50,8 @@ public class Sensor : BaseEntity
       {
             var trimmedLocation = (location ?? string.Empty).Trim( );
             var trimmedName = (name ?? string.Empty).Trim( );
-            // Format-Validierung erfolgt im Application Layer (FluentValidation)
-            // Nur Domain-spezifische Validierung (Uniqueness) hier
+            // Domain-Validierung: Format + Uniqueness
+            SensorSpecifications.ValidateEntityInternal( trimmedLocation , trimmedName );
             await SensorSpecifications.ValidateEntityExternal( 0 , trimmedLocation , trimmedName , uniquenessChecker , ct );
             return new Sensor( trimmedLocation , trimmedName );
       }
@@ -63,8 +63,8 @@ public class Sensor : BaseEntity
       {
             var trimmedLocation = (location ?? string.Empty).Trim( );
             var trimmedName = (name ?? string.Empty).Trim( );
-            // Format-Validierung erfolgt im Application Layer (FluentValidation)
-            // Nur Domain-spezifische Validierung (Uniqueness) hier
+            // Domain-Validierung: Format + Uniqueness
+            SensorSpecifications.ValidateEntityInternal( trimmedLocation , trimmedName );
             await SensorSpecifications.ValidateEntityExternal( Id , trimmedLocation , trimmedName , uniquenessChecker , ct );
             Location = trimmedLocation;
             Name = trimmedName;
