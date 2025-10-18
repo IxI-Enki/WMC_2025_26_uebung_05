@@ -1,3 +1,11 @@
+<!-- markdownlint-disable MD022 -->
+<!-- markdownlint-disable MD031 -->
+<!-- markdownlint-disable MD032 -->
+<!-- markdownlint-disable MD033 -->
+<!-- markdownlint-disable MD034 -->
+<!-- markdownlint-disable MD036 -->
+<!-- markdownlint-disable MD040 -->
+
 # Task List - WMC Übung 05: Middleware & Validation
 
 ## Aufgabenstellung
