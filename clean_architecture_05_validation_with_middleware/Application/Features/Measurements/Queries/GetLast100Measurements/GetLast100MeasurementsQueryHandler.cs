@@ -15,10 +15,8 @@ public sealed class GetLast100MeasurementsQueryHandler(IUnitOfWork uow)
     public async Task<IReadOnlyCollection<GetMeasurementDto>> Handle(GetLast100MeasurementsQuery request,
         CancellationToken cancellationToken)
     {
-        // GetAllAsync mit OrderBy: neueste zuerst (Timestamp DESC), dann Take(100)
-        var entities = await uow.Measurements.GetAllAsync(
-            cancellationToken,
-            orderBy: query => query.OrderByDescending(m => m.Timestamp).Take(100));
+        // Repository-Methode liefert die 100 neuesten Messwerte (Timestamp DESC)
+        var entities = await uow.Measurements.GetLast100MeasurementsAsync(cancellationToken);
 
         return entities.Adapt<IReadOnlyCollection<GetMeasurementDto>>();
     }

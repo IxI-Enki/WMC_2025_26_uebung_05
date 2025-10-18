@@ -62,4 +62,13 @@ public class MeasurementRepository( AppDbContext dbContext ) : GenericRepository
               .Skip( skip )
               .Take( take )
               .ToListAsync( ct );
+
+      /// <summary>
+      /// Liefert die 100 neuesten Messwerte sortiert nach Timestamp absteigend.
+      /// </summary>
+      public async Task<IReadOnlyCollection<Measurement>> GetLast100MeasurementsAsync( CancellationToken ct = default )
+          => await _dbContext.Measurements.AsNoTracking( )
+              .OrderByDescending( m => m.Timestamp )
+              .Take( 100 )
+              .ToListAsync( ct );
 }
