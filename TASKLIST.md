@@ -16,7 +16,7 @@ Implementieren Sie **AddMeasurement** und **GetLast100Measurements** gemäß den
 ## Tasks
 
 ### ✅ Task 01 - Analyse Assignment & Scriptum
-**Status:** Pending
+**Status:** Completed
 **Beschreibung:** Anforderungen und Patterns aus Assignment und Scriptum im Detail verstehen
 
 **Expected Result:**
@@ -39,7 +39,7 @@ Implementieren Sie **AddMeasurement** und **GetLast100Measurements** gemäß den
 ---
 
 ### ✅ Task 02 - Codebase-Struktur analysieren
-**Status:** Pending
+**Status:** Completed
 **Beschreibung:** Existierende Patterns & Code-Strukturen im Projekt identifizieren und verstehen
 
 **Expected Result:**
@@ -92,7 +92,7 @@ Api/
 ---
 
 ### ✅ Task 03 - AddMeasurement Command implementieren
-**Status:** Pending
+**Status:** Completed
 **Beschreibung:** AddMeasurement Command mit Location/Name/Timestamp/Value implementieren, inklusive Auto-Creation von Sensor falls nicht vorhanden
 
 **Expected Result:**
@@ -131,7 +131,7 @@ public record AddMeasurementCommand(
 ---
 
 ### ✅ Task 04 - AddMeasurement Validation implementieren
-**Status:** Pending
+**Status:** Completed
 **Beschreibung:** FluentValidation Validator für AddMeasurementCommand (Application-Layer) - Timestamp innerhalb letzter Stunde prüfen
 
 **Expected Result:**
@@ -161,7 +161,7 @@ public class AddMeasurementCommandValidator : AbstractValidator<AddMeasurementCo
 ---
 
 ### ✅ Task 05 - GetLast100Measurements Query implementieren
-**Status:** Pending
+**Status:** Completed
 **Beschreibung:** Query für die 100 neuesten Messwerte, sortiert nach Timestamp absteigend
 
 **Expected Result:**
@@ -206,7 +206,7 @@ public class GetLast100MeasurementsQueryHandler(IUnitOfWork uow)
 ---
 
 ### ✅ Task 06 - API Endpoints bereitstellen
-**Status:** Pending
+**Status:** Completed
 **Beschreibung:** MeasurementsController erweitern mit AddMeasurement (POST) und GetLast100Measurements (GET) Endpoints
 
 **Expected Result:**
@@ -257,7 +257,7 @@ public async Task<IActionResult> GetLast100Measurements(CancellationToken ct)
 ---
 
 ### ✅ Task 07 - Validierung testen
-**Status:** Pending
+**Status:** Completed
 **Beschreibung:** Domain-, Application- und API-Layer Validierungen manuell prüfen
 
 **Expected Result:**
@@ -284,7 +284,7 @@ public async Task<IActionResult> GetLast100Measurements(CancellationToken ct)
 ---
 
 ### ✅ Task 08 - Integration testen
-**Status:** Pending
+**Status:** Completed
 **Beschreibung:** End-to-End Test der neuen Features AddMeasurement & GetLast100Measurements
 
 **Expected Result:**
@@ -554,14 +554,17 @@ clean_architecture_05_validation_with_middleware/
 
 | Task # | Task Name | Status | Progress |
 |--------|-----------|--------|----------|
-| 01 | Analyse Assignment & Scriptum | ⏳ Pending | 0% |
-| 02 | Codebase-Struktur analysieren | ⏳ Pending | 0% |
-| 03 | AddMeasurement Command | ⏳ Pending | 0% |
-| 04 | AddMeasurement Validation | ⏳ Pending | 0% |
-| 05 | GetLast100Measurements Query | ⏳ Pending | 0% |
-| 06 | API Endpoints | ⏳ Pending | 0% |
-| 07 | Validierung testen | ⏳ Pending | 0% |
-| 08 | Integration testen | ⏳ Pending | 0% |
+| 01 | Analyse Assignment & Scriptum | ✅ Completed | 100% |
+| 02 | Codebase-Struktur analysieren | ✅ Completed | 100% |
+| 03 | AddMeasurement Command | ✅ Completed | 100% |
+| 04 | AddMeasurement Validation | ✅ Completed | 100% |
+| 05 | GetLast100Measurements Query | ✅ Completed | 100% |
+| 06 | API Endpoints | ✅ Completed | 100% |
+| 07 | Validierung testen | ✅ Completed | 100% |
+| 08 | Integration testen | ✅ Completed | 100% |
+| 09 | DomainValidationResult erstellen | ✅ Completed | 100% |
+| 10 | SensorSpecifications erweitern | ✅ Completed | 100% |
+| 11 | Sensor CreateAsync/UpdateAsync erweitern | ✅ Completed | 100% |
 
 ---
 
