@@ -980,32 +980,32 @@ public class CreateSensorCommandHandler(IUnitOfWork uow)
 
     ```text
     ╭──────────────────────────────────────────────╮
-    │            PRESENTATION LAYER            │
-    │          ( API, Controller, UI )         │
-    │                                          │
-    │  · Syntax-Checks (z.B. JSON valide?)     │
-    │  · Pflichtfelder da?                     │
-    │  · Formatvalidierung(z.B. Email Regex)   │
+    │            PRESENTATION LAYER                │
+    │          ( API, Controller, UI )             │
+    │                                              │
+    │  · Syntax-Checks (z.B. JSON valide?)         │
+    │  · Pflichtfelder da?                         │
+    │  · Formatvalidierung(z.B. Email Regex)       │
     ╰──────────────────────┬───────────────────────╯
-                         ▼
+                           ▼
     ╭──────────────────────────────────────────────╮
-    │            APPLICATION LAYER             │
-    │                                          │
-    │  · Request Validation                    │
-    │    (z.B. DTO Mapper, Eingabe-Boundaries) │
-    │  · Orchestrierung                        │
-    │    (richtiger Use Case?)                 │
-    │  · Zugriffskontrolle                     │
+    │            APPLICATION LAYER                 │
+    │                                              │
+    │  · Request Validation                        │
+    │    (z.B. DTO Mapper, Eingabe-Boundaries)     │
+    │  · Orchestrierung                            │
+    │    (richtiger Use Case?)                     │
+    │  · Zugriffskontrolle                         │
     ╰──────────────────────┬───────────────────────╯
-                         ▼
+                           ▼
     ╭──────────────────────────────────────────────╮
-    │               DOMAIN LAYER               │
-    │                                          │
-    │   · Geschäftslogik-Validierungen         │
-    │     (Invarianten, Regeln)                │
-    │     · Rabatt ≤ 20 %                      │
-    │     · Konto darf nicht < 0               │
-    │     · Bestellung nur, wenn Kunde aktiv   │
+    │               DOMAIN LAYER                   │
+    │                                              │
+    │   · Geschäftslogik-Validierungen             │
+    │     (Invarianten, Regeln)                    │
+    │     · Rabatt ≤ 20 %                          │
+    │     · Konto darf nicht < 0                   │
+    │     · Bestellung nur, wenn Kunde aktiv       │
     ╰──────────────────────────────────────────────╯
     ```
 
@@ -1286,7 +1286,7 @@ public async Task<CreateSensorResultDto> Handle(CreateSensorCommand request,
   - Erzeuge mir ein command AddMeasurementCommand(location, name, timestamp, value) mit einen entsprechenden handler, der für den sensor mit location/name (wenn sensor nicht existiert, wird er angelegt) ein measurement und biete den usecase über einen endpoint im measurementscontroller an.
   - Wenn ich bei addmeasurement einen fehlerhaften sensornamen eingebe, kommt die exception bis in den response durch. fange mir die domainvalidationexceptions ab und wandle sie in einen badrequest um
 
-- **`Endgame`-Prompt** → (`modified_by` [${\texttt{\color{royalblue}{IxI-Enki - visit GitHub}}}$](https://github.com/IxI-Enki) ):
+- **`Endgame`-Prompt** → `modified_by` ${\texttt{\color{royalblue}{IxI-Enki - }}}$ [visit GitHub](https://github.com/IxI-Enki) :
 
   ```yaml
   # PROMPT PART 1 -- Objective
