@@ -1734,11 +1734,7 @@ public static async Task ValidateEntityExternal(int id, string location, string 
 
 ## 66. <strike>Internal und external</strike>
 
-<b><div align="center">
-
-${\bold {\texttt {\color{red}{ DOUBBLED PAGE in the scriptum - }}}}$ [65 🔙](#65-internal-und-external)
-
-</div></b>
+$${{\texttt {\color{red}{ DOUBBLED Page in the scriptum - }}}}$$  [65 🔙](#65-internal-und-external)
 
 ## 67. ApplicationValidation
 
@@ -2187,10 +2183,6 @@ public static IActionResult ToActionResult<T>(this Result<T> result,
 
 ## 82. <strike>Unique Index ➔ DB</strike>
 
-<b><div align="center">
-
-${\bold {\texttt {\color{red}{ DOUBBLED Page in the scriptum - }}}}$ [60 🔙](#60-unique-index-in-db)
-
-</div></b>
+$${{\texttt {\color{red}{ DOUBBLED Page in the scriptum - }}}}$$ [60 🔙](#60-unique-index-in-db)
   
 ---
